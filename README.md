@@ -1,14 +1,14 @@
 ### View package for karamel
 
 #### implemented commands
-* [ ] if
-* [ ] else
+* [x] if
+* [x] else
 * [ ] elseif
-* [ ] endif
+* [x] endif
 * [ ] for
 * [ ] endfor
-* [ ] foreach
-* [ ] endforeach
+* [x] foreach
+* [x] endforeach
 * [ ] while
 * [ ] endwhile
 * [ ] break
