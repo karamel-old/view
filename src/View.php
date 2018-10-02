@@ -4,7 +4,7 @@ namespace Karamel\View;
 
 use Karamel\View\Compiler\Searcher;
 use Karamel\View\Exceptions\ViewNotFoundException;
-use karamel\View\Interfaces\IView;
+use Karamel\View\Interfaces\IView;
 
 class View implements IView
 {
@@ -12,14 +12,26 @@ class View implements IView
     private $base_path;
     private $view_delimeter;
     private $view_name;
+    private $response;
 
     public function __construct($base_path, $dist_path, $view_delimeter = ".")
     {
         $this->base_path = $base_path;
         $this->dist_path = $dist_path;
         $this->view_delimeter = $view_delimeter;
+        $this->response = new ViewResponse($this);
     }
 
+    public function setViewName($view)
+    {
+        $this->view_name = $view;
+        return $this;
+    }
+
+    public function getViewName()
+    {
+        return $this->view_name;
+    }
     public function getDistPath()
     {
         if (array_slice(str_split($this->dist_path), -1, 1)[0] != '/')
@@ -45,7 +57,7 @@ class View implements IView
         return md5($this->view_name) . '.php';
     }
 
-    private function getCompiledViewPath()
+    public function getCompiledViewPath()
     {
         return $this->getDistPath() . $this->getCompiledViewName();
     }
@@ -65,21 +77,40 @@ class View implements IView
     private function writeCompiledView($content)
     {
 
-        if($this->checkExistsCompiledView())
-            if($this->getCompiledViewMD5() == md5($content))
+        if ($this->checkExistsCompiledView())
+            if ($this->getCompiledViewMD5() == md5($content))
                 return;
 
         $file = fopen($this->getCompiledViewPath(), 'w+');
         fwrite($file, $content);
         fclose($file);
     }
+    private function processBeforeMake($view){
 
+        $this->view_name = $view;
+
+        $viewContent = $this->getViewFile();
+
+        $newView = $this->compile($viewContent);
+        $this->writeCompiledView($newView);
+
+        $parentView = $this->findParentView($viewContent);
+
+        if ($parentView !== null)
+            $this->processBeforeMake($parentView);
+    }
     //panel.admin.index
     public function make($view)
     {
-        $this->view_name = $view;
-        $newView = $this->compile($this->getViewFile());
-        $this->writeCompiledView($newView);
+
+        $this->processBeforeMake($view);
+        return $this->response->render($view);
+
+    }
+
+    private function findParentView($content)
+    {
+        return Searcher::extededView($content);
     }
 
     private function getViewFile()
@@ -95,8 +126,14 @@ class View implements IView
         return $this->getBasePath() . $this->getConvertViewName();
     }
 
+
     private function getConvertViewName()
     {
-        return str_replace($this->view_delimeter, "/", $this->view_name);
+        return str_replace($this->view_delimeter, "/", $this->view_name) . '.klade.php';
+    }
+
+    public function loadTemplet($template)
+    {
+        // TODO: Implement loadTemplet() method.
     }
 }

@@ -1,5 +1,4 @@
 <?php
-namespace karamel\View\Interfaces ;
+namespace Karamel\View\Interfaces ;
 interface IView{
-    public function loadTemplet($template);
 }

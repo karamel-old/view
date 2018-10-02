@@ -3,24 +3,25 @@
 #### implemented commands
 * [x] if
 * [x] else
-* [ ] elseif
+* [x] elseif
 * [x] endif
-* [ ] for
-* [ ] endfor
+* [x] for
+* [x] endfor
 * [x] foreach
 * [x] endforeach
-* [ ] while
-* [ ] endwhile
-* [ ] break
-* [ ] continue
-* [ ] isset
+* [x] while
+* [x] endwhile
+* [x] break
+* [x] continue
+* [x] isset
+* [x] endisset
 * [ ] include
-* [ ] section
-* [ ] endsection
+* [x] section
+* [x] endsection
 * [ ] extends
 * [ ] yield
-* [ ] switch
-* [ ] case
-* [ ] endswitch
+* [x] switch
+* [x] case
+* [x] endswitch
 * [ ] push
 * [ ] component
