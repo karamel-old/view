@@ -120,4 +120,13 @@ class Convertor
     {
         return '$2 <?php $__view->_extends($1); ?>';
     }
+
+    public function replaceEscapedVariables()
+    {
+        return '<?php echo $__view->_escape($1); ?>';
+    }
+    public function replaceUnescapedVariables()
+    {
+        return '<?php echo ($1); ?>';
+    }
 }

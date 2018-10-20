@@ -1,18 +1,21 @@
 {
-    "name": "karamel/view",
-    "description": "view package for karamel",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Amir Kalantar",
-            "email": "amir.kalantar@gmail.com"
-        }
-    ],
-    "autoload":{
-        "psr-4":{
-            "Karamel\\View\\": "src/"
-        }
+  "name": "karamel/view",
+  "description": "view package for karamel",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Amir Kalantar",
+      "email": "amir.kalantar@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Karamel\\View\\": "src/"
     },
-    "require": {}
+    "files": [
+      "src/Helpers/View.php"
+    ]
+  },
+  "require": {}
 }

@@ -13,12 +13,28 @@ class View implements IView
     private $view_delimeter;
     private $view_name;
     private $response;
-
-    public function __construct($base_path, $dist_path, $view_delimeter = ".")
+    private static $instace;
+    public static function getInstance()
     {
-        $this->base_path = $base_path;
-        $this->dist_path = $dist_path;
-        $this->view_delimeter = $view_delimeter;
+        if(self::$instace !== null)
+            return self::$instace;
+        self::$instace = new View();
+        return self::$instace;
+    }
+    public function __construct()
+    {
+        if(!defined('KM_VIEW_BASE_PATH'))
+            throw new \Exception("KM_VIEW_BASE_PATH Must be defined at start of your application");
+
+        if(!defined('KM_VIEW_DIST_PATH'))
+            throw new \Exception('KM_VIEW_DIST_PATH Must be defined at start of your application');
+
+        if(!defined('KM_VIEW_DELIMETER'))
+            throw new \Exception('KM_VIEW_DELIMETER Must be defined at start of your application');
+
+        $this->base_path = KM_VIEW_BASE_PATH;
+        $this->dist_path = KM_VIEW_DIST_PATH;
+        $this->view_delimeter = KM_VIEW_DELIMETER;
         $this->response = new ViewResponse($this);
     }
 
@@ -100,11 +116,11 @@ class View implements IView
             $this->processBeforeMake($parentView);
     }
     //panel.admin.index
-    public function make($view)
+    public function make($view,$variables)
     {
 
         $this->processBeforeMake($view);
-        return $this->response->render($view);
+        return $this->response->render($view,$variables);
 
     }
 

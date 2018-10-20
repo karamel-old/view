@@ -11,7 +11,7 @@ class Searcher
     {
         $search = new Searcher($content);
         foreach (get_class_methods($search) as $method) {
-            if (in_array($method, ['start', '__construct', 'getFinalContent','extededView']))
+            if (in_array($method, ['start', '__construct', 'getFinalContent', 'extededView']))
                 continue;
             $search->{$method}();
         }
@@ -168,5 +168,15 @@ class Searcher
 
     private function findComponent()
     {
+    }
+
+    private function findEscapedVariables()
+    {
+        $this->content = preg_replace("/\{\{(.*)\}\}/i", $this->convertor->replaceEscapedVariables(), $this->content);
+    }
+
+    private function findUnescapedVariables()
+    {
+        $this->content = preg_replace("/\{\!\!(.*)\!\!\}/i", $this->convertor->replaceUnescapedVariables(), $this->content);
     }
 }
