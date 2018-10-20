@@ -6,20 +6,24 @@ class ViewResponse
     private $view;
     private $sectionName;
     public static $renderedView;
+    public static $renderedVariables;
 
     public function __construct(View $view)
     {
         $this->view = $view;
     }
 
-    public function render($view, $variables)
+    public function render($view, $variables=null)
     {
+        if(self::$renderedVariables == null)
+            self::$renderedVariables = $variables;
         $viewCompiledPath = $this->view->setViewName($view)->getCompiledViewPath();
 
         $__view = $this;
-        foreach ($variables as $name => $value) {
-            $$name = $value;
+        foreach (self::$renderedVariables as $__KARAMEL_VIEW_VARIABLES_KEY => $__KARAMEL_VIEW_VARIABLES_VALUE) {
+            $$__KARAMEL_VIEW_VARIABLES_KEY = $__KARAMEL_VIEW_VARIABLES_VALUE;
         }
+
         include $viewCompiledPath;
 
     }

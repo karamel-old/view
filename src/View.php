@@ -116,7 +116,7 @@ class View implements IView
             $this->processBeforeMake($parentView);
     }
     //panel.admin.index
-    public function make($view,$variables)
+    public function make($view,$variables=null)
     {
 
         $this->processBeforeMake($view);
