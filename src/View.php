@@ -8,28 +8,22 @@ use Karamel\View\Interfaces\IView;
 
 class View implements IView
 {
+    private static $instace;
     private $dist_path;
     private $base_path;
     private $view_delimeter;
     private $view_name;
     private $response;
-    private static $instace;
-    public static function getInstance()
-    {
-        if(self::$instace !== null)
-            return self::$instace;
-        self::$instace = new View();
-        return self::$instace;
-    }
+
     public function __construct()
     {
-        if(!defined('KM_VIEW_BASE_PATH'))
+        if (!defined('KM_VIEW_BASE_PATH'))
             throw new \Exception("KM_VIEW_BASE_PATH Must be defined at start of your application");
 
-        if(!defined('KM_VIEW_DIST_PATH'))
+        if (!defined('KM_VIEW_DIST_PATH'))
             throw new \Exception('KM_VIEW_DIST_PATH Must be defined at start of your application');
 
-        if(!defined('KM_VIEW_DELIMETER'))
+        if (!defined('KM_VIEW_DELIMETER'))
             throw new \Exception('KM_VIEW_DELIMETER Must be defined at start of your application');
 
         $this->base_path = KM_VIEW_BASE_PATH;
@@ -38,70 +32,35 @@ class View implements IView
         $this->response = new ViewResponse($this);
     }
 
-    public function setViewName($view)
+    public static function getInstance()
     {
-        $this->view_name = $view;
-        return $this;
+        if (self::$instace !== null)
+            return self::$instace;
+        self::$instace = new View();
+        return self::$instace;
     }
 
     public function getViewName()
     {
         return $this->view_name;
     }
-    public function getDistPath()
+
+    public function setViewName($view)
     {
-        if (array_slice(str_split($this->dist_path), -1, 1)[0] != '/')
-            $this->dist_path .= '/';
-        return $this->dist_path;
+        $this->view_name = $view;
+        return $this;
     }
 
-    public function getBasePath()
+    public function make($view, $variables = null)
     {
 
-        if (array_slice(str_split($this->base_path), -1, 1)[0] != '/')
-            $this->base_path .= '/';
-        return $this->base_path;
+        $this->processBeforeMake($view);
+        return $this->response->render($view, $variables);
+
     }
 
-    private function compile($content)
+    private function processBeforeMake($view)
     {
-        return Searcher::start($content);
-    }
-
-    private function getCompiledViewName()
-    {
-        return md5($this->view_name) . '.php';
-    }
-
-    public function getCompiledViewPath()
-    {
-        return $this->getDistPath() . $this->getCompiledViewName();
-    }
-
-    private function checkExistsCompiledView()
-    {
-        if (file_exists($this->getCompiledViewPath()))
-            return true;
-        return false;
-    }
-
-    private function getCompiledViewMD5()
-    {
-        return md5(file_get_contents($this->getCompiledViewPath()));
-    }
-
-    private function writeCompiledView($content)
-    {
-
-        if ($this->checkExistsCompiledView())
-            if ($this->getCompiledViewMD5() == md5($content))
-                return;
-
-        $file = fopen($this->getCompiledViewPath(), 'w+');
-        fwrite($file, $content);
-        fclose($file);
-    }
-    private function processBeforeMake($view){
 
         $this->view_name = $view;
 
@@ -114,19 +73,6 @@ class View implements IView
 
         if ($parentView !== null)
             $this->processBeforeMake($parentView);
-    }
-    //panel.admin.index
-    public function make($view,$variables=null)
-    {
-
-        $this->processBeforeMake($view);
-        return $this->response->render($view,$variables);
-
-    }
-
-    private function findParentView($content)
-    {
-        return Searcher::extededView($content);
     }
 
     private function getViewFile()
@@ -142,10 +88,70 @@ class View implements IView
         return $this->getBasePath() . $this->getConvertViewName();
     }
 
+    public function getBasePath()
+    {
+
+        if (array_slice(str_split($this->base_path), -1, 1)[0] != '/')
+            $this->base_path .= '/';
+        return $this->base_path;
+    }
 
     private function getConvertViewName()
     {
         return str_replace($this->view_delimeter, "/", $this->view_name) . '.klade.php';
+    }
+
+    private function compile($content)
+    {
+        return Searcher::start($content);
+    }
+
+    private function writeCompiledView($content)
+    {
+
+        if ($this->checkExistsCompiledView())
+            if ($this->getCompiledViewMD5() == md5($content))
+                return;
+
+        $file = fopen($this->getCompiledViewPath(), 'w+');
+        fwrite($file, $content);
+        fclose($file);
+    }
+
+    private function checkExistsCompiledView()
+    {
+        if (file_exists($this->getCompiledViewPath()))
+            return true;
+        return false;
+    }
+
+    //panel.admin.index
+
+    public function getCompiledViewPath()
+    {
+        return $this->getDistPath() . $this->getCompiledViewName();
+    }
+
+    public function getDistPath()
+    {
+        if (array_slice(str_split($this->dist_path), -1, 1)[0] != '/')
+            $this->dist_path .= '/';
+        return $this->dist_path;
+    }
+
+    private function getCompiledViewName()
+    {
+        return md5($this->view_name) . '.php';
+    }
+
+    private function getCompiledViewMD5()
+    {
+        return md5(file_get_contents($this->getCompiledViewPath()));
+    }
+
+    private function findParentView($content)
+    {
+        return Searcher::extededView($content);
     }
 
     public function loadTemplet($template)

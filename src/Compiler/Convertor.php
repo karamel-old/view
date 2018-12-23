@@ -19,6 +19,11 @@ class Convertor
         return $this->replaceEnd();
     }
 
+    public function replaceEnd()
+    {
+        return "<?php } ?>";
+    }
+
     public function replaceEndForeach()
     {
         return $this->replaceEnd();
@@ -27,11 +32,6 @@ class Convertor
     public function replaceEndFor()
     {
         return $this->replaceEnd();
-    }
-
-    public function replaceEnd()
-    {
-        return "<?php } ?>";
     }
 
     public function replaceForeach()
@@ -125,6 +125,7 @@ class Convertor
     {
         return '<?php echo $__view->_escape($1); ?>';
     }
+
     public function replaceUnescapedVariables()
     {
         return '<?php echo ($1); ?>';

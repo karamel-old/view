@@ -1,0 +1,40 @@
+[
+    {
+        "name": "karamel/http",
+        "version": "v0.1.7",
+        "version_normalized": "0.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/karamel-pack/http.git",
+            "reference": "5be8f56f86009fc47236a2f93f597e4fc43502b3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/karamel-pack/http/zipball/5be8f56f86009fc47236a2f93f597e4fc43502b3",
+            "reference": "5be8f56f86009fc47236a2f93f597e4fc43502b3",
+            "shasum": ""
+        },
+        "time": "2018-12-18T15:01:45+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Karamel\\Http\\": "src/"
+            },
+            "files": [
+                "src/Helpers/Helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Amir Kalantar",
+                "email": "amir.kalantar@gmail.com"
+            }
+        ],
+        "description": "http lib"
+    }
+]

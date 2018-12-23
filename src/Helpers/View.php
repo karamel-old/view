@@ -1,5 +1,5 @@
 <?php
-function view($viewName, $variables=null)
+function view($viewName, $variables = null)
 {
-    return \Karamel\View\View::getInstance()->make($viewName,$variables);
+    return \Karamel\View\View::getInstance()->make($viewName, $variables);
 }

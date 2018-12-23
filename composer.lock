@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "df38c7bf2e40e34c1636486e51824e63",
+    "packages": [
+        {
+            "name": "karamel/http",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/karamel-pack/http.git",
+                "reference": "5be8f56f86009fc47236a2f93f597e4fc43502b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/karamel-pack/http/zipball/5be8f56f86009fc47236a2f93f597e4fc43502b3",
+                "reference": "5be8f56f86009fc47236a2f93f597e4fc43502b3",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Karamel\\Http\\": "src/"
+                },
+                "files": [
+                    "src/Helpers/Helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amir Kalantar",
+                    "email": "amir.kalantar@gmail.com"
+                }
+            ],
+            "description": "http lib",
+            "time": "2018-12-18T15:01:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

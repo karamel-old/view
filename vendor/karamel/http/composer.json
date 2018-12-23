@@ -1,6 +1,6 @@
 {
-  "name": "karamel/view",
-  "description": "view package for karamel",
+  "name": "karamel/http",
+  "description": "http lib",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,13 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Karamel\\View\\": "src/"
+      "Karamel\\Http\\": "src/"
     },
     "files": [
-      "src/Helpers/View.php"
+      "src/Helpers/Helpers.php"
     ]
   },
-  "require": {
-    "karamel/http": "v0.1.7"
-  }
+  "minimum-stability": "dev",
+  "require": {}
 }

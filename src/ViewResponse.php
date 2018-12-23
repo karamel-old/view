@@ -1,21 +1,31 @@
 <?php
 
 namespace Karamel\View;
+
+use Karamel\Http\Response;
+
 class ViewResponse
 {
-    private $view;
-    private $sectionName;
     public static $renderedView;
     public static $renderedVariables;
+    private $view;
+    private $sectionName;
 
     public function __construct(View $view)
     {
         $this->view = $view;
     }
 
-    public function render($view, $variables=null)
+    public function _extends($extendsName)
     {
-        if(self::$renderedVariables == null)
+        if (self::$renderedView == null)
+            self::$renderedView = [];
+        $this->render($extendsName);
+    }
+
+    public function render($view, $variables = null)
+    {
+        if (self::$renderedVariables == null)
             self::$renderedVariables = $variables;
         $viewCompiledPath = $this->view->setViewName($view)->getCompiledViewPath();
 
@@ -24,15 +34,11 @@ class ViewResponse
             $$__KARAMEL_VIEW_VARIABLES_KEY = $__KARAMEL_VIEW_VARIABLES_VALUE;
         }
 
+        ob_start();
         include $viewCompiledPath;
-
-    }
-
-    public function _extends($extendsName)
-    {
-        if (self::$renderedView == null)
-            self::$renderedView = [];
-        $this->render($extendsName);
+        $content = ob_get_contents();
+        ob_end_flush();
+        return (new Response())->setStatusCode(200)->setContent($content);
     }
 
     public function _startSection($sectionName)

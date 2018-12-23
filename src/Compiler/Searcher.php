@@ -7,6 +7,12 @@ class Searcher
     private $content;
     private $convertor;
 
+    public function __construct($content)
+    {
+        $this->content = $content;
+        $this->convertor = new Convertor();
+    }
+
     public static function start($content)
     {
         $search = new Searcher($content);
@@ -16,12 +22,6 @@ class Searcher
             $search->{$method}();
         }
         return $search->getFinalContent();
-    }
-
-    public function __construct($content)
-    {
-        $this->content = $content;
-        $this->convertor = new Convertor();
     }
 
     public function getFinalContent()
